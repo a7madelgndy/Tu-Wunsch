@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-
+import SwiftData
 @main
 struct Tu_WishlistApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: Wish.self)
         }
     }
 }
