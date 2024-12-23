@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var isAlertShowing: Bool = false
     @State private var title : String = " "
     
-    let container = try! ModelContainer(for: Wish.self, configurations: ModelConfiguration(isStoredInMemoryOnly: false))
+   
     var body: some View {
         NavigationStack {
             List {
@@ -22,8 +22,15 @@ struct ContentView: View {
                     Text(wish.title)
                         .font(.title2.weight(.light))
                         .padding(.vertical, 2)
+                        .swipeActions {
+                            Button("Delete" , role: .destructive) {
+                                modelContext.delete(wish)
+                            }
+                        }
+        
                 }
             }//::List
+            
             .navigationTitle("My wishlist")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -34,11 +41,14 @@ struct ContentView: View {
                             .imageScale(.large)
                     }
                 }
+     
             }
+      
             .alert("Create a new Wish" , isPresented: $isAlertShowing){
                 TextField("your Whis", text: $title)
                 Button {
-                    container.mainContext.insert(Wish(title: title))
+                    modelContext.insert(Wish(title: title))
+                    title = ""
                 } label: {
                     Text("Save")
                 }
