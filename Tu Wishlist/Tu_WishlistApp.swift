@@ -13,6 +13,8 @@ struct Tu_WishlistApp: App {
         WindowGroup {
             ContentView()
                 .modelContainer(for: Wish.self)
+            //Main app's model Container
+             
         }
     }
 }
