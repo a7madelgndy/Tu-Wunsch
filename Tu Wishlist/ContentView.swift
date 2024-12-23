@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var wihses : [Wish]
+    @Query private var wishes : [Wish]
     
     @State private var isAlertShowing: Bool = false
     @State private var title : String = " "
@@ -18,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(wihses) { wish in
+                ForEach(wishes) { wish in
                     Text(wish.title)
                         .font(.title2.weight(.light))
                         .padding(.vertical, 2)
@@ -40,8 +40,13 @@ struct ContentView: View {
                         Image(systemName: "plus")
                             .imageScale(.large)
                     }
+                    
                 }
-     
+                if wishes.isEmpty != true{
+                   ToolbarItem(placement: .bottomBar) {
+            Text("\(wishes.count) Wish\(wishes.count > 1 ? "es" : "")")
+                        }
+                    }
             }
       
             .alert("Create a new Wish" , isPresented: $isAlertShowing){
@@ -54,7 +59,7 @@ struct ContentView: View {
                 }
              }
             .overlay {
-              if  wihses.isEmpty {
+              if  wishes.isEmpty {
                     ContentUnavailableView("My Wishlist", systemImage: "heart", description: Text( "No Wishes yet. Add one To get Started."))
                 }
             }
